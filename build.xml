@@ -116,16 +116,9 @@
 			<echo message="Executing The peopleProfileSearcher" />
 		<java classname="PeopleProfileSearcher" classpath="build">
 			<arg value="5"/>
-			      <arg value=">60"/>
+			<arg value=">90"/>
 		</java>
-		<echo message="Executing The peopleProfileWriter" />
-				<java classname="PeopleProfileWriter" classpath="build"><classpath>
-					<fileset dir="${lib.dir}">
-						<include name="**/*.jar" />
-						<include name="*.jar" />
-					</fileset>
-				</classpath><arg value="3"/></java>	 
-		<echo message="Executing The peopleProfileReader" />
+		<echo message="Executing The peopleProfileReader with XML" />
 						<java classname="PeopleProfileReader" classpath="build"><classpath>
 							<fileset dir="${lib.dir}">
 								<include name="**/*.jar" />
@@ -133,6 +126,21 @@
 							</fileset>
 						</classpath>
 							</java>	 
+		<echo message="Executing The peopleProfileWriter in Xml" />
+						<java classname="PeopleProfileWriter" classpath="build"><classpath>
+							<fileset dir="${lib.dir}">
+								<include name="**/*.jar" />
+								<include name="*.jar" />
+							</fileset>
+						</classpath><arg value="3"/></java>	 
+		<echo message="Executing The peopleProfileReader with Json" />
+								<java classname="PeopleProfileReaderJson" classpath="build"><classpath>
+									<fileset dir="${lib.dir}">
+										<include name="**/*.jar" />
+										<include name="*.jar" />
+									</fileset>
+								</classpath>
+									</java>	 
 		<echo message="Executing The peopleProfileWriter with Json" />
 								<java classname="PeopleProfileWriterJson" classpath="build"><classpath>
 									<fileset dir="${lib.dir}">

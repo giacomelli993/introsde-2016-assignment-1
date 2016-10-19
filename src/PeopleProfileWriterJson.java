@@ -60,7 +60,8 @@ public class PeopleProfileWriterJson {
 	        "Watson", "Weber", "West", "Willis", "Young", "Zimmerman"
 	    };
 	    //First I do the un-marshalling, so I can append people later
-	public static void retrieveJson() throws JAXBException, JsonParseException, JsonMappingException, IOException{
+	public static int retrieveJson() throws JAXBException, JsonParseException, JsonMappingException{
+		try{
 		// Adding the Jackson Module to process JAXB annotations
         JaxbAnnotationModule module = new JaxbAnnotationModule();
         
@@ -72,6 +73,11 @@ public class PeopleProfileWriterJson {
 
 	    people = (People) mapper.readValue(new File("people.json"), People.class);;
 	    list = people.getPerson();
+	    return 1;
+	} catch(IOException e){
+		list = people.getPerson();
+    	return 0;
+    	}
 	    
 	}
 	//calculate BMI, output as a Strng
@@ -157,15 +163,27 @@ public class PeopleProfileWriterJson {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		retrieveJson();
-		//I get the last element of the list
-		String lastId = list.get(list.size()-1).getId();
-		long sequence = Long.parseLong(lastId);
+		int exist = retrieveJson();
+		
 		if(args.length==1){
 			int num = Integer.parseInt(args[0]);
-			for(int i=0;i<num;i++){
-			sequence ++;
-			addPerson(randomChoice(givenNames),randomChoice(surnames),createRandomDate(),Long.toString(sequence),randInt(50,120),createHeight(),createRandomDate());
+			//checks if the source file exists
+			if(exist ==1){
+				//I get the last element of the list
+				String lastId = list.get(list.size()-1).getId();
+				long sequence = Long.parseLong(lastId);
+				
+				for(int i=0;i<num;i++){
+					sequence ++;
+					addPerson(randomChoice(givenNames),randomChoice(surnames),createRandomDate(),Long.toString(sequence),randInt(50,120),createHeight(),createRandomDate());
+				}
+			}else{
+				long sequence = 0;
+				for(int i=0;i<num;i++){
+					sequence ++;
+					addPerson(randomChoice(givenNames),randomChoice(surnames),createRandomDate(),Long.toString(sequence),randInt(50,120),createHeight(),createRandomDate());
+				}
+				
 			}
 		
 		

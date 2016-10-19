@@ -17,11 +17,11 @@ public class PeopleProfileReader {
     	
     	return ("ID :\t\t"+person.getId()+"\n"
     			+"Name :\t\t"+person.getFirstname()+"\n"
-    			+"Last name :\t"+person.getLastname()+"\n"
-    			+"BirthDay :\t"+person.getBirthdate()+"\n"
+    			+"Last name :\t\t"+person.getLastname()+"\n"
+    			+"BirthDay :\t\t"+person.getBirthdate()+"\n"
     			+"Last Update :\t"+person.getHealthprofile().getLastupdate()+"\n"
-    			+"Weight :\t"+person.getHealthprofile().getWeight()+"\n"
-    			+"Height :\t"+person.getHealthprofile().getHeight()+"\n"
+    			+"Weight :\t\t"+person.getHealthprofile().getWeight()+"\n"
+    			+"Height :\t\t"+person.getHealthprofile().getHeight()+"\n"
     			+"BMI :\t\t"+person.getHealthprofile().getBmi()+"\n"
     			
     	);

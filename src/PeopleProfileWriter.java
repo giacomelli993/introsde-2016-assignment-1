@@ -58,15 +58,21 @@ public class PeopleProfileWriter {
 	        "Watson", "Weber", "West", "Willis", "Young", "Zimmerman"
 	    };
 	    //With this method I read the existing XML, so I can append new users
-	public static void retrieveXML() throws JAXBException, FileNotFoundException{
+	public static int retrieveXML() throws JAXBException{
+		try{
 		JAXBContext jc = JAXBContext.newInstance(People.class);
 	    
 	    
 	    Unmarshaller um = jc.createUnmarshaller();
 	    people = (People) um.unmarshal(new FileReader("people.xml"));
 	    list = people.getPerson();
+	    return 1;
 	    
-	}
+	} catch(FileNotFoundException e){
+		list = people.getPerson();
+    	return 0;
+    	}
+    }
 	//calculates BMI, output is formatted as a String so I can put it directly in the constructor for a new person
 	public static String calculateBMI(String h, String w){
 		String bmi;
@@ -153,30 +159,42 @@ public class PeopleProfileWriter {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		retrieveXML();
+		int exist;
+		exist = retrieveXML();
 		//Here I retrieve the last id of the Xml file
-		String lastId = list.get(list.size()-1).getId();
-		long sequence = Long.parseLong(lastId);
-		//Here I check the input args
 		if(args.length==1){
-		int num = Integer.parseInt(args[0]);
-		for(int i=0;i<num;i++){
-			//I increase the id number, because the value has to be unique
-		sequence ++;
-		//I add a random person
-		addPerson(randomChoice(givenNames),randomChoice(surnames),createRandomDate(),Long.toString(sequence),randInt(50,120),createHeight(),createRandomDate());
-		}
-		//Start marshalling
-		JAXBContext jc = JAXBContext.newInstance(People.class);
-        Marshaller m = jc.createMarshaller();
-        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        m.marshal(people,new File("people.xml")); // marshalling into a file
-        m.marshal(people, System.out);
+			//checks if the source file exists
+			if(exist==1){
+					String lastId = list.get(list.size()-1).getId();
+					long sequence = Long.parseLong(lastId);
+					//Here I check the input args
+					
+					int num = Integer.parseInt(args[0]);
+					for(int i=0;i<num;i++){
+									//I increase the id number, because the value has to be unique
+									sequence ++;
+									//I add a random person
+									addPerson(randomChoice(givenNames),randomChoice(surnames),createRandomDate(),Long.toString(sequence),randInt(50,120),createHeight(),createRandomDate());
+					}
+			}else{
+				long sequence =0;
+				
+				int num = Integer.parseInt(args[0]);
+				for(int i=0;i<num;i++){
+								//I increase the id number, because the value has to be unique
+							sequence ++;
+							//I add a random person
+							addPerson(randomChoice(givenNames),randomChoice(surnames),createRandomDate(),Long.toString(sequence),randInt(50,120),createHeight(),createRandomDate());
+			}}
+			//Start marshalling
+			JAXBContext jc = JAXBContext.newInstance(People.class);
+			Marshaller m = jc.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			m.marshal(people,new File("people.xml")); // marshalling into a file
+			m.marshal(people, System.out);	
 		}else{
 			//wrong args
 			System.out.println("input error");
-		}
-		
-		
+	}
 	}
 }
